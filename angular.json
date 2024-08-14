@@ -25,27 +25,32 @@
               "src/assets"
             ],
             "styles": [
+              "./node_modules/@po-ui/style/css/po-theme-default.min.css",
+              "./node_modules/@totvs/po-theme/css/po-theme-default-variables.min.css",
+              "./node_modules/@totvs/po-theme/css/po-theme-default.min.css",
+              "./node_modules/@po-ui/style/css/po-theme-core.min.css",
               "src/styles.css"
             ],
-            "scripts": [],
-            "server": "src/main.server.ts",
-            "prerender": true,
-            "ssr": {
-              "entry": "server.ts"
-            }
+            "scripts": []
           },
           "configurations": {
             "production": {
+              "fileReplacements": [
+                {
+                  "replace": "src/app/environments/environment.ts",
+                  "with": "src/app/environments/environment.prod.ts"
+                }
+              ],
               "budgets": [
                 {
                   "type": "initial",
-                  "maximumWarning": "500kb",
-                  "maximumError": "1mb"
+                  "maximumWarning": "5000kb",
+                  "maximumError": "10mb"
                 },
                 {
                   "type": "anyComponentStyle",
-                  "maximumWarning": "2kb",
-                  "maximumError": "4kb"
+                  "maximumWarning": "200kb",
+                  "maximumError": "4000kb"
                 }
               ],
               "outputHashing": "all"
@@ -53,7 +58,12 @@
             "development": {
               "optimization": false,
               "extractLicenses": false,
-              "sourceMap": true
+              "sourceMap": true,
+              "fileReplacements": [
+                {
+                  "replace": "src/app/environments/environment.ts",
+                  "with": "src/app/environments/environment.ts"
+                }]
             }
           },
           "defaultConfiguration": "production"
@@ -89,6 +99,8 @@
               "src/assets"
             ],
             "styles": [
+              "./node_modules/@po-ui/style/css/po-theme-default.min.css",
+              "./node_modules/@totvs/po-theme/css/po-theme-default.min.css",
               "src/styles.css"
             ],
             "scripts": []
@@ -96,5 +108,8 @@
         }
       }
     }
+  },
+  "cli": {
+    "analytics": "2b490008-efea-4fb6-adbd-6f4b54261bc5"
   }
 }

@@ -1,0 +1,59 @@
+.campofiltros{
+
+    display: flex;
+    gap: 10px;
+    justify-items: start;
+    align-items: last baseline;
+ 
+    
+    
+}
+
+.campofiltrosc{
+
+    display: flex;
+    gap: 10px;
+    justify-content: center;
+    align-items: center;
+    box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 3px;
+    border: 1px solid gray; 
+    border-radius: 4px; 
+    padding:10px; 
+    height: 102px; 
+    background-color: whitesmoke;
+  
+}
+
+.cabec{
+    display: flex; 
+    gap:10px;
+    justify-content: start; 
+    align-items: center; 
+    margin-top: 10px;
+}
+
+.tipoBusca{
+    box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 3px;
+    border: 1px solid gray; 
+    border-radius: 4px;
+    padding: 10px 0 10px 20px; 
+    height: 102px;
+    background-color: whitesmoke;
+}
+
+.selecao{
+    flex-grow: 1;
+    box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 3px;
+    border: 1px solid gray; 
+    border-radius: 4px; 
+    padding:10px 0 10px 20px; 
+    height: 102px;
+    background-color: whitesmoke;
+}
+
+.grid{
+    border: 1px solid lightgray; 
+    border-radius: 4px; 
+    padding: 10px; 
+    margin-top: 10px;
+}

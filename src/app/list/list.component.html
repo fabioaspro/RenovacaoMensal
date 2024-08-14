@@ -1,0 +1,78 @@
+<div class="cabec" >
+    <div class="campofiltrosc">
+
+        <po-button p-icon="po-icon po-icon-refresh" p-label="Atualizar"         p-kind="primary" (p-click)="AtualizarTela()"></po-button>
+        <po-button p-icon="po-icon po-icon-upload"  p-label="Efetuar Renovação" p-kind="primary" (p-click)="AbrirChamaEntradas()"></po-button>
+
+       <!-- <form [formGroup]="form">
+          <po-radio-group style="min-width: 200px;"
+                          name="tpBusca" 
+                          formControlName="tpBusca" 
+                          [p-columns]=2 
+                          p-label="Tipo de Busca"
+                          [p-options]="[
+                            { label: 'Reparo', value: 1},
+                            { label: 'Item', value: 2}
+                          ]"
+                          (p-change)="changeBusca($event)"
+                          >
+                      </po-radio-group>
+        </form>-->
+    </div>
+    <div class="selecao">
+
+        <po-combo class="po-md-6" name="ComboEstabel" [p-options]="listaEstabelecimentos" p-icon="po-icon-manufacture"
+            p-label="Estabelecimento" (p-change)="onEstabChange($event)" p-placeholder="Selecione um Estabelecimento">
+            <ng-template p-combo-option-template let-option>
+                <div class="po-row">
+
+                    <span class="po-icon po-icon-manufacture po-sm-2 po-md-3 po-lg-1"> </span>
+                    <div class="po-sm-10 po-md-9 po-lg-11">
+                        <div class="po-font-text-large-bold">{{ option.label }}</div>
+                        <div class="po-font-text-smaller">Filial: {{ option.value }}</div>
+                    </div>
+                </div>
+            </ng-template>
+        </po-combo>
+        <!--
+        <form [formGroup]="form">
+          <div class="campofiltros" >
+            
+            <po-input name="codEstabel" p-auto-focus="true" formControlName="codEstabel" style="width: 50px;" p-label="Estab"  p-mask="xxx">      </po-input>
+  
+            @if (this.mudaCampos === 1) {            
+              <po-input name="codFilial"  formControlName="codFilial"  style="width: 50px;" p-label="Filial" p-mask="xx">       </po-input>
+              <po-input name="numRR"      formControlName="numRR" style="width: 120px;" p-label="Reparo" p-mask=">>>>>>9.9"></po-input>
+            }
+            @else {
+              <po-input name="itCodigo" formControlName="itCodigo"  style="width: 200px;" p-label="Item" p-mask="XX.XXX.XXXXX-XX">       </po-input>
+            }
+  
+            <po-button p-tooltip="Efetuar Busca de Prioridade" name='btBusca' [p-disabled]="lBotao" style="margin-right: 50px" p-icon="po-icon po-icon-search" p-kind="primary"  p-label="Buscar" (p-click)="ChamaObterBRR()"></po-button>
+          </div>
+        </form>
+        -->
+    </div>
+    <div class="campofiltrosc">
+            <!--
+            <po-button p-tooltip="Consulta de Saldo Item Data"           p-icon="po-icon po-icon-pushcart"     p-label="CE0830"   (p-click)="AbrirTelaTOTVS('cep/ce0830.w')" p-kind="primary" ></po-button>
+            <po-button p-tooltip="Consulta Analise Critica Planejamento" p-icon="po-icon po-icon-pallet-full"  p-label="ESPP034"  (p-click)="AbrirTelaTOTVS('esp/espp034.w')" p-kind="primary"></po-button>
+            <po-button p-tooltip="Baixar Dados no Excel"                 p-icon="bi bi-download"               p-label="Baixar" (p-click)="this.onExportarExcel()" p-kind="primary"> </po-button>
+            -->
+    </div>
+  </div>
+  
+  <div class="grid">    
+      <po-loading-overlay *ngIf="loadTela===true" [p-text]="labelLoadTela" [p-screen-lock]="true"></po-loading-overlay>
+      <!--<p style="font-size: 20px; font-weight: bold"><po-divider p-label="Busca efetuada por {{this.pesquisa}}"></po-divider></p>-->
+      <po-table [p-items]="lista" 
+                [p-columns]="colunas"
+                [p-striped]="true" 
+                p-sort="true"
+                [p-hide-table-search]="false" 
+                [p-hide-columns-manager]="true" 
+                p-container="true"
+                [p-literals]="customLiterals"
+                [p-height]="290"/>
+      <p style="font-size: 10px" >versão 1.00.000</p>
+  </div>
