@@ -5,7 +5,8 @@
 export const environment = {
   production: false,
   //totvs_url: 'https://totvsapptst.dieboldnixdorf.com.br:8543/api/integracao/brr/v1/apicadleadtime',
-  totvs_url: 'https://hawebdev.dieboldnixdorf.com.br:8543/api/integracao/brr/v1/apiesbrr001', //desenv
+  totvs_url_01: 'https://hawebdev.dieboldnixdorf.com.br:8543/api/integracao/aat/v1/esaa001api', //desenv
+  totvs_url: 'https://hawebdev.dieboldnixdorf.com.br:8543/api/integracao/aat/v1/esaa002api', //desenv
   //totvs_url: 'https://hawebdev.dieboldnixdorf.com.br:8143/api/integracao/brr/v1/apiesbrr001', //projetos
   totvs_header:{
     'Content-Type': 'application/json',

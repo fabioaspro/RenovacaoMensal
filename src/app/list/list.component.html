@@ -1,8 +1,8 @@
 <div class="cabec" >
     <div class="campofiltrosc">
 
-        <po-button p-icon="po-icon po-icon-refresh" p-label="Atualizar"         p-kind="primary" (p-click)="AtualizarTela()"></po-button>
-        <po-button p-icon="po-icon po-icon-upload"  p-label="Efetuar Renovação" p-kind="primary" (p-click)="AbrirChamaEntradas()"></po-button>
+        <po-button p-tooltip="Atualizar Dados"          p-icon="po-icon po-icon-refresh" p-label="Atualizar"         p-kind="primary" (p-click)="atualizar()"></po-button>
+        <po-button p-tooltip="Agendar Renovação Mensal" p-icon="po-icon po-icon-upload"  p-label="Efetuar Renovação" p-kind="primary" (p-click)="AbrirEfetuarRenovacao()"></po-button>
 
        <!-- <form [formGroup]="form">
           <po-radio-group style="min-width: 200px;"
@@ -21,7 +21,7 @@
     </div>
     <div class="selecao">
 
-        <po-combo class="po-md-6" name="ComboEstabel" [p-options]="listaEstabelecimentos" p-icon="po-icon-manufacture"
+        <po-combo class="po-md-12" name="ComboEstabel" [p-options]="listaEstabelecimentos" p-icon="po-icon-manufacture"
             p-label="Estabelecimento" (p-change)="onEstabChange($event)" p-placeholder="Selecione um Estabelecimento">
             <ng-template p-combo-option-template let-option>
                 <div class="po-row">
@@ -54,25 +54,65 @@
         -->
     </div>
     <div class="campofiltrosc">
-            <!--
-            <po-button p-tooltip="Consulta de Saldo Item Data"           p-icon="po-icon po-icon-pushcart"     p-label="CE0830"   (p-click)="AbrirTelaTOTVS('cep/ce0830.w')" p-kind="primary" ></po-button>
-            <po-button p-tooltip="Consulta Analise Critica Planejamento" p-icon="po-icon po-icon-pallet-full"  p-label="ESPP034"  (p-click)="AbrirTelaTOTVS('esp/espp034.w')" p-kind="primary"></po-button>
-            <po-button p-tooltip="Baixar Dados no Excel"                 p-icon="bi bi-download"               p-label="Baixar" (p-click)="this.onExportarExcel()" p-kind="primary"> </po-button>
+            <po-button p-tooltip="Itens Técnicos X Mascaras Kits"   p-icon="po-icon po-icon-pushcart"     p-label="ESAA015"         (p-click)="AbrirTelaTOTVS('esp/esaa016.w')" p-kind="primary" ></po-button>
+            <po-button p-tooltip="Lista Itens x Localização"        p-icon="po-icon po-icon-news"         p-label="ESAA002"         (p-click)="AbrirTelaTOTVS('esp/esaa002.w')" p-kind="primary"></po-button>
+            <po-button p-tooltip="AutoAtendimento"                  p-icon="po-icon po-icon-handshake"    p-label="AutoAtendimento" (p-click)="AbrirTelaTOTVS('htmla41/')" p-kind="primary"></po-button>
+            <po-button p-tooltip="Monitor Pedido Execução"          p-icon="po-icon po-icon-touch"        p-label="Monitor PedExec" (p-click)="AbrirTelaTOTVS('totvs-fnd-task-scheduler/#/order-monitor')" p-kind="primary"></po-button>
+            <!--tem que instalar os componentes do excel
+            <po-button p-tooltip="Baixar Dados no Excel"            p-icon="bi bi-download"               p-label="Baixar" (p-click)="this.onExportarExcel()" p-kind="primary"> </po-button>
             -->
     </div>
-  </div>
+</div>
   
-  <div class="grid">    
-      <po-loading-overlay *ngIf="loadTela===true" [p-text]="labelLoadTela" [p-screen-lock]="true"></po-loading-overlay>
-      <!--<p style="font-size: 20px; font-weight: bold"><po-divider p-label="Busca efetuada por {{this.pesquisa}}"></po-divider></p>-->
-      <po-table [p-items]="lista" 
-                [p-columns]="colunas"
-                [p-striped]="true" 
-                p-sort="true"
-                [p-hide-table-search]="false" 
-                [p-hide-columns-manager]="true" 
-                p-container="true"
-                [p-literals]="customLiterals"
-                [p-height]="290"/>
-      <p style="font-size: 10px" >versão 1.00.000</p>
-  </div>
+<div class="grid">    
+    <po-loading-overlay *ngIf="loadTela===true" [p-text]="labelLoadTela" [p-screen-lock]="true"></po-loading-overlay>
+    <po-table #ttRenovacaoMensal [p-items]="registros" 
+                                  [p-columns]="colunas"
+                                  [p-striped]="true" 
+                                  p-sort="true"
+                                  [p-actions]="opcoesGrid"
+                                  [p-hide-table-search]="false" 
+                                  [p-hide-columns-manager]="true" 
+                                  p-container="true"
+                                  [p-single-select]="false"
+                                  [p-selectable]="true"
+                                  [p-literals]="customLiterals"
+                                  [p-height]="390"/>
+    <p style="font-size: 10px" >versão 1.00.000</p>
+</div>
+
+<po-modal #ChamaEntradas p-size="100px" p-title="RENOVAÇÃO MENSAL DA FILIAL.: {{ codFilial }}" >
+  
+    <form [formGroup]="form">
+
+        <po-divider p-label="Dados do Agendamento - ENTRADAS"></po-divider>
+        
+        <po-datepicker class="po-md-4" p-mask="99/99/9999" [(ngModel)]="dataAgendamentoultimo" p-required
+            p-help="Ex.: Data: DD/MM/AAAA" name="DtRenovEntr" p-label="Data Entradas" formControlName="DtRenovEntr">
+        </po-datepicker>
+
+        <po-input [(ngModel)]="horaAgendamentoEntr" p-mask="99:99:99" class="po-lg-6" name="Hora" p-label="Hora " p-required
+            p-help="Ex.: Hora: HH:MM:SS" id="00:00:05" formControlName="HrRenovEntr">
+        </po-input>
+
+        <br><br><br><br><br><br> 
+
+        <po-divider p-label="Dados do Agendamento - SAÍDAS"></po-divider>
+        
+        <po-datepicker class="po-md-4" p-mask="99/99/9999" [(ngModel)]="dataAgendamentoprimeiro" p-required
+            p-help="Ex.: Data: DD/MM/AAAA" name="DtRenovSai" p-label="Data Saídas" formControlName="DtRenovSai">
+        </po-datepicker>
+
+        <po-input [(ngModel)]="horaAgendamentoSai" p-mask="99:99:99" class="po-lg-6" name="Hora" p-label="Hora " p-required
+            p-help="Ex.: Hora: HH:MM:SS" id="00:00:10" formControlName="HrRenovSai">
+        </po-input>
+
+    </form>
+
+    <po-modal-footer [p-disabled-align]="false">
+        <po-button p-label="true" p-label="Cancelar" (p-click)="FecharChamaEntradas()"> </po-button>
+        <po-button p-kind="primary" p-label="Confirmar" (p-click)="ChamaRenovacaoMensal()"> </po-button>
+    </po-modal-footer>
+
+  
+</po-modal>
