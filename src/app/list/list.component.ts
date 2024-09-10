@@ -120,13 +120,14 @@ export class ListComponent {
                          CodFilial:   this.codFilial, 
                          CodEmitente: registrosComSeparador };
 
-          console.log(params)
+          //console.log(params)
           //Chamar a api para processar registros
           this.srvTotvs.ExecEntradas(params).subscribe({
             next: (data: any) => { 
                 this.labelLoadTela = "Gerando Renovação Mensal"
                 this.loadTela = true; 
-                console.log(data); },
+                //console.log(data); 
+            },
             error: (e:any) => {
 
               this.loadTela = false;
@@ -207,16 +208,21 @@ export class ListComponent {
     this.srvTotvs.ObterColunasGrid().subscribe(
       (data: { items: Array<any> }) => {
         this.colunas = data.items;
-        console.log(this.colunas);
+        //console.log(this.colunas);
       });
 
     this.srvTotvs.ObterEstabelecimentos().subscribe({
-      next: (data:any) => { console.log(data);
+      next: (data:any) => { 
+                        //console.log(data);
                         this.listaEstabelecimentos = [];
                         this.listaEstabelecimentos = data;
                       },
-      error: (error:any) => { console.log('Ocorreu um erro', error) },
-      complete: () => { console.log('O carregamento terminou com sucesso !') }
+      error: (error:any) => { //console.log('Ocorreu um erro', error) 
+                              this.Pnotifica.error("Ocorreu um erro:" + error)  
+      },
+      complete: () => { //console.log('O carregamento terminou com sucesso !') 
+                        //this.Pnotifica.success("O carregamento terminou com sucesso !")  
+      }
     });
   }
 
@@ -245,7 +251,7 @@ export class ListComponent {
 
   public onEstabChange(obj: string) {
 
-    console.log(obj);
+    //console.log(obj);
     this.codFilial = obj;
     this.atualizar();
 
@@ -260,10 +266,14 @@ export class ListComponent {
                         this.registros = data.items;
                         this.totalLabelSituacoes();
                         this.loadTela = false;
-                        console.log('OK', this.registros)
+                        //console.log('OK', this.registros)
                         },
-        error: (error:any) => { console.log('Ocorreu um erro', error) },
-        complete: () => { console.log('O carregamento terminou com sucesso !') }
+        error: (error:any) => { //console.log('Ocorreu um erro', error) 
+                                this.Pnotifica.error("Ocorreu um erro:" + error)  
+        },
+        complete: () => { //console.log('O carregamento terminou com sucesso !') 
+                          //this.Pnotifica.success("O carregamento terminou com sucesso !")  
+        }
       });
   }
 
