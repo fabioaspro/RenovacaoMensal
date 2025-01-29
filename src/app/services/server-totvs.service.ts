@@ -55,6 +55,17 @@ export class ServerTotvsService {
     ];
   } 
 
+  //Grid de Detalhes
+  public PopularDetalhes(params?:any) { //
+    //return this.http.get<any>("https://totvsapptst.dieboldnixdorf.com.br:8543/api/integracao/aat/v1/esaa002api/PrRecebeDetalhes?CodEmitente=1734?CodFilial=34?NrProcess=1490004",httpOptions).pipe(take(1)); // + id + "?CodFilial=" + fil + "?NrProcess=" + nrpro,httpOptions).pipe(take(1));
+    return this.http.get<any>(`${this._url}/PrRecebeDetalhes`, {params: params, headers:headersTotvs}).pipe(take(1)); // + id + "?CodFilial=" + fil + "?NrProcess=" + nrpro,httpOptions).pipe(take(1));
+  }
+
+  //Coluna de Detalhes
+  public ObterColunasDetalhes(params?:any) {
+    return this.http.get<any>(`${this._url}/PrRecebeDetalhesMetadata`, {params: params, headers:headersTotvs}).pipe(take(1));
+  }
+
   //Executar entradas
   public ExecEntradas(params?:any) { //
     return this.http.get<any>(`${this._url}/PrExecEntradas`, {params:params, headers:headersTotvs}).pipe(take(1));

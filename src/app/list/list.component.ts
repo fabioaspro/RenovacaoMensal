@@ -53,7 +53,7 @@ export class ListComponent {
   labelLoadTela:string = ''
   loadTela: boolean = false
   listaEstabelecimentos: any[] = [];
-  
+  alturaGrid:number=window.innerHeight - 295
   codFilial!: string;
   registros!: any[];
 

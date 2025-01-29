@@ -56,9 +56,9 @@
     <div class="campofiltrosc">
             <po-button p-tooltip="Lista Itens x Localização"        p-icon="po-icon po-icon-news"         p-label="ESAA002"         (p-click)="AbrirTelaTOTVS('esp/esaa002.w')" p-kind="primary"></po-button>
             <po-button p-tooltip="Itens Técnicos X Mascaras Kits"   p-icon="po-icon po-icon-pushcart"     p-label="ESAA015"         (p-click)="AbrirTelaTOTVS('esp/esaa015.w')" p-kind="primary" ></po-button>
-            <po-button p-tooltip="AutoAtendimento"                  p-icon="po-icon po-icon-handshake"    p-label="AutoAtendimento" (p-click)="AbrirTelaTOTVS('htmla41/')" p-kind="primary"></po-button>
+            <!--<po-button p-tooltip="AutoAtendimento"                  p-icon="po-icon po-icon-handshake"    p-label="AutoAtendimento" (p-click)="AbrirTelaTOTVS('htmla41/')" p-kind="primary"></po-button>
             <po-button p-tooltip="Monitor Pedido Execução"          p-icon="po-icon po-icon-touch"        p-label="Monitor PedExec" (p-click)="AbrirTelaTOTVS('totvs-fnd-task-scheduler/#/order-monitor')" p-kind="primary"></po-button>
-            <!--tem que instalar os componentes do excel
+            tem que instalar os componentes do excel
             <po-button p-tooltip="Baixar Dados no Excel"            p-icon="bi bi-download"               p-label="Baixar" (p-click)="this.onExportarExcel()" p-kind="primary"> </po-button>
             -->
     </div>
@@ -77,7 +77,7 @@
                                   [p-single-select]="false"
                                   [p-selectable]="true"
                                   [p-literals]="customLiterals"
-                                  [p-height]="390"/>
+                                  [p-height]="alturaGrid"/>
     <p style="font-size: 10px" >versão 1.00.000</p>
 </div>
 
@@ -116,3 +116,14 @@
 
   
 </po-modal>
+
+<!--
+<po-modal #DetalheTecnico p-size="100px"
+    p-title="Emitente.: {{ objSolic['CodEmitente']}} Processo.: {{ objSolic['NrProcess']}}">
+
+    <po-button p-label="Atualizar" (p-click)="atualizaDetalhe()"></po-button>
+    <po-table [p-height]="305" [p-items]="registrosDetalhes" [p-columns]="colunasDetalhes" [p-striped]="true"
+        [p-sort]="false" [p-single-select]="false" [p-selectable]="false">
+    </po-table>
+
+</po-modal>-->
