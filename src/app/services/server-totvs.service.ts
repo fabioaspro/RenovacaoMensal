@@ -18,7 +18,7 @@ export class ServerTotvsService {
 
   constructor(private http: HttpClient ) { }
 
-  //---------------------- Variaveis Globais
+  //---------------------- Variaveis Globais   
   public ObterVariaveisGlobais(params?: any){
     return this.http.get(`${this._url}/ObterVariaveisGlobais`, {params, headers:headersTotvs})
                    .pipe(take(1));
