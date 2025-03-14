@@ -48,11 +48,7 @@ export class ServerTotvsService {
       { property: 'Situacao',        label: "Sit"},
       { property: 'dtIni',           label: "Data Ini", type:'date', format: "dd/MM/yyyy"},
       { property: 'PedExec',         label: "Pedido de Execução"},
-      /*
-      
-      F
-      FIELDS rep-conc         AS DECI                      SERIALIZE-NAME "repConc"
-      */
+      { property: 'dthrSaidas',       label: "Data/Hora Saídas"},
 
     ];
   } 
@@ -81,7 +77,6 @@ export class ServerTotvsService {
   //Executar entradas
   public ExecEntradas(params?:any) { //
     return this.http.get<any>(`${this._url}/PrExecEntradas`, {params:params, headers:headersTotvs}).pipe(take(1));
-    //return this.http.get<any>('https://hawebdev.dieboldnixdorf.com.br:8543/api/integracao/aat/v1/esaa002api/PrExecEntradas', {params: params, headers:headersTotvs}).pipe(take(1));
   }
 
   //Grid de Tecnicos

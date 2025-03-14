@@ -19,6 +19,7 @@
                       </po-radio-group>
         </form>-->
     </div>
+    
     <div class="selecao">
 
         <po-combo class="po-md-12" name="ComboEstabel" [p-options]="listaEstabelecimentos" p-icon="po-icon-manufacture"
@@ -57,7 +58,8 @@
             <po-button p-tooltip="Lista Itens x Localização"        p-icon="po-icon po-icon-news"       p-label="ESAA002"        (p-click)="AbrirTelaTOTVS('esp/esaa002.w')" p-kind="primary"></po-button>
             <po-button p-tooltip="Itens Técnicos X Mascaras Kits"   p-icon="po-icon po-icon-pushcart"   p-label="ESAA015"        (p-click)="AbrirTelaTOTVS('esp/esaa015.w')" p-kind="primary"></po-button>
             <po-button p-tooltip="Itens em Poder do Técnico Filial" p-icon="po-icon po-icon-pushcart"   p-label="ESAA016"        (p-click)="AbrirTelaTOTVS('esp/esaa016.w')" p-kind="primary"></po-button>
-            <po-button p-tooltip="Gerar SaldoTerc Atual"            p-icon="po-icon po-icon-print"      p-label="Gera SaldoTerc" (p-click)="onChamarLogin()"             p-kind="primary"></po-button>
+            <po-button p-tooltip="Baixar Dados no Excel"            p-icon="bi bi-download"             p-label="Baixar Excel"   (p-click)="onExportarExcel()"               p-kind="primary"></po-button>
+            <po-button p-tooltip="Gerar SaldoTerc Atual"            p-icon="po-icon po-icon-print"      p-label="Gera SaldoTerc" (p-click)="onChamarLogin()"                 p-kind="primary"></po-button>
             <!--<po-button p-tooltip="AutoAtendimento"                  p-icon="po-icon po-icon-handshake"    p-label="AutoAtendimento" (p-click)="AbrirTelaTOTVS('htmla41/')" p-kind="primary"></po-button>
             <po-button p-tooltip="Monitor Pedido Execução"          p-icon="po-icon po-icon-touch"        p-label="Monitor PedExec" (p-click)="AbrirTelaTOTVS('totvs-fnd-task-scheduler/#/order-monitor')" p-kind="primary"></po-button>
             tem que instalar os componentes do excel
@@ -67,20 +69,38 @@
 </div>
   
 <div class="grid">    
+    <p style="font-size: 15px; font-weight: bold; margin-bottom: -40px;">Técnicos Selecionados: {{this.total}}</p>
+
     <po-loading-overlay *ngIf="loadTela===true" [p-text]="labelLoadTela" [p-screen-lock]="true"></po-loading-overlay>
     <po-table #ttRenovacaoMensal [p-items]="registros" 
-                                  [p-columns]="colunas"
-                                  [p-striped]="true" 
-                                  p-sort="true"
-                                  [p-actions]="opcoesGrid"
-                                  [p-hide-table-search]="false" 
-                                  [p-hide-columns-manager]="true" 
-                                  p-container="true"
-                                  [p-single-select]="false"
-                                  [p-selectable]="true"
-                                  [p-literals]="customLiterals"
-                                  [p-height]="alturaGrid"/>
-    <p style="font-size: 10px" >versão 1.00.000</p>
+                                 [p-columns]="colunas"
+                                 [p-selectable]="true"
+                                 [p-single-select]="false"
+                                 (p-selected)="changeOptions($event)"
+                                 (p-unselected)="changeOptions($event)"
+                                 (p-all-selected)="changeOptions($event)"
+                                 (p-all-unselected)="changeOptions($event)"
+                                 
+                                 [p-striped]="true" 
+                                 p-sort="true"
+                                 [p-sort]="true"
+                                 [p-hide-table-search]="false" 
+                                 [p-hide-columns-manager]="true" 
+                                 p-container="true"
+                                 
+                                 [p-literals]="customLiterals"
+                                 [p-height]="alturaGrid"
+                                 [p-actions]="opcoesGrid"
+                                  >
+      <ng-template p-table-cell-template let-column="column" let-row="row">
+        @if(column.property === 'opcao'){
+            <div class="menuGrid">
+            <div><button class="btn"  (click)="onAlterarGrid(row)"><p><i class="bi bi-eraser-fill"></i></p></button></div>
+            </div>
+        }
+      </ng-template>
+    </po-table>
+    <!--<p style="font-size: 10px" >versão 1.00.000</p>-->
 </div>
 
 <po-modal #ChamaEntradas p-size="100px" p-title="RENOVAÇÃO MENSAL DA FILIAL.: {{ codFilial }}" >
@@ -89,11 +109,11 @@
 
         <po-divider p-label="Dados do Agendamento - ENTRADAS"></po-divider>
         
-        <po-datepicker class="po-md-4" p-mask="99/99/9999" [(ngModel)]="dataAgendamentoultimo" p-required
+        <po-datepicker class="po-md-4" p-mask="99/99/9999" p-required
             p-help="Ex.: Data: DD/MM/AAAA" name="DtRenovEntr" p-label="Data Entradas" formControlName="DtRenovEntr">
         </po-datepicker>
 
-        <po-input [(ngModel)]="horaAgendamentoEntr" p-mask="99:99:99" class="po-lg-6" name="Hora" p-label="Hora " p-required
+        <po-input p-mask="99:99:99" class="po-lg-6" name="Hora" p-label="Hora " p-required
             p-help="Ex.: Hora: HH:MM:SS" id="00:00:05" formControlName="HrRenovEntr">
         </po-input>
 
@@ -101,12 +121,12 @@
 
         <po-divider p-label="Dados do Agendamento - SAÍDAS"></po-divider>
         
-        <po-datepicker class="po-md-4" p-mask="99/99/9999" [(ngModel)]="dataAgendamentoprimeiro" p-required
+        <po-datepicker class="po-md-4" p-mask="99/99/9999" p-required
             p-help="Ex.: Data: DD/MM/AAAA" name="DtRenovSai" p-label="Data Saídas" formControlName="DtRenovSai">
         </po-datepicker>
 
-        <po-input [(ngModel)]="horaAgendamentoSai" p-mask="99:99:99" class="po-lg-6" name="Hora" p-label="Hora " p-required
-            p-help="Ex.: Hora: HH:MM:SS" id="00:00:10" formControlName="HrRenovSai">
+        <po-input p-mask="99:99:99" class="po-lg-6" name="Hora" p-label="Hora " p-required
+            p-help="Ex.: Hora: HH:MM:SS" id="00:00:10" formControlName="HrRenovSai" (keyup.enter)="ChamaRenovacaoMensal()">
         </po-input>
 
     </form>
@@ -152,3 +172,29 @@
     </po-password>
   </div>
 </po-modal>
+
+<po-modal #telaAltera p-title="Altere os Dados do Técnico [ {{ objSolic }} ]"
+                              p-size="auto" 
+                              p-click-out="false" 
+                              [p-hide-close]="true"
+                              [p-primary-action]="acaoAlterarLinha" 
+                              [p-secondary-action]="acaoCancelarLinha">
+      <form [formGroup]="formAltera">
+        <div class="po-md-12">
+            <po-widget p-title="Dados do Agendamento (Saída)">
+
+                <div class="po-md-6">
+                    <div style="display: flex;flex-direction: column;">
+                        <po-datepicker class="po-input" p-mask="99/99/9999" p-help="Ex.: Data: DD/MM/AAAA" name="dDtRenovSai" p-label="Data Saídas" formControlName="dDtRenovSai"></po-datepicker>
+                    </div>
+                </div>
+                <div class="po-md-6">
+                    <div style="display: flex;flex-direction: column;">
+                      <po-input p-mask="99:99:99" class="po-input" name="chrRenovSai" p-label="Hora " p-required p-help="Ex.: Hora: HH:MM:SS" id="00:00:10" formControlName="chrRenovSai"></po-input>
+                        
+                    </div>
+                </div>
+            </po-widget>
+        </div>
+      </form>
+  </po-modal>

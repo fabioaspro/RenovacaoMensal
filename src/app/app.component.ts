@@ -49,24 +49,23 @@ export class AppComponent {
 
   
     constructor(private swUpdate: SwUpdate) {
-      console.log('FAS...')
+      //console.log('FAS...')
       //location.reload()
       //this.checkForUpdates();
     }
    
     checkForUpdates() {
-      console.log('FAS2...')
+      //console.log('FAS2...')
      
-      console.log('4')
+      //console.log('4')
       if (this.swUpdate.isEnabled) {
 
-        console.log('FAS3...')
+        //console.log('FAS3...')
         // Força a verificação de novas versões manualmente
         this.swUpdate.checkForUpdate().then(() => console.log('Checando por atualizações...'));
    
         // Se uma atualização for encontrada, ativa a atualização
-        /*
-        this.swUpdate.available.subscribe(event => {
+        /*this.swUpdate.available.subscribe(event => {
           console.log('Nova versão disponível:', event);
           if (confirm('Nova versão disponível! Deseja atualizar?')) {
             this.swUpdate.activateUpdate().then(() => window.location.reload());
@@ -80,7 +79,7 @@ export class AppComponent {
       }
       else {
         this.swUpdate.checkForUpdate().then(() => console.log('Checando por atualizações...'));
-        console.log('FAS4...')
+        //console.log('FAS4...')
       }
     }
 
