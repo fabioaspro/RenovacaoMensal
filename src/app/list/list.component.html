@@ -1,0 +1,154 @@
+<div class="cabec" >
+    <div class="campofiltrosc">
+
+        <po-button p-tooltip="Atualizar Dados"          p-icon="po-icon po-icon-refresh" p-label="Atualizar"         p-kind="primary" (p-click)="atualizar()"></po-button>
+        <po-button p-tooltip="Agendar Renovação Mensal" p-icon="po-icon po-icon-upload"  p-label="Efetuar Renovação" p-kind="primary" (p-click)="AbrirEfetuarRenovacao()"></po-button>
+
+       <!-- <form [formGroup]="form">
+          <po-radio-group style="min-width: 200px;"
+                          name="tpBusca" 
+                          formControlName="tpBusca" 
+                          [p-columns]=2 
+                          p-label="Tipo de Busca"
+                          [p-options]="[
+                            { label: 'Reparo', value: 1},
+                            { label: 'Item', value: 2}
+                          ]"
+                          (p-change)="changeBusca($event)"
+                          >
+                      </po-radio-group>
+        </form>-->
+    </div>
+    <div class="selecao">
+
+        <po-combo class="po-md-12" name="ComboEstabel" [p-options]="listaEstabelecimentos" p-icon="po-icon-manufacture"
+            p-label="Estabelecimento" (p-change)="onEstabChange($event)" p-placeholder="Selecione um Estabelecimento">
+            <ng-template p-combo-option-template let-option>
+                <div class="po-row">
+
+                    <span class="po-icon po-icon-manufacture po-sm-2 po-md-3 po-lg-1"> </span>
+                    <div class="po-sm-10 po-md-9 po-lg-11">
+                        <div class="po-font-text-large-bold">{{ option.label }}</div>
+                        <div class="po-font-text-smaller">Filial: {{ option.value }}</div>
+                    </div>
+                </div>
+            </ng-template>
+        </po-combo>
+        <!--
+        <form [formGroup]="form">
+          <div class="campofiltros" >
+            
+            <po-input name="codEstabel" p-auto-focus="true" formControlName="codEstabel" style="width: 50px;" p-label="Estab"  p-mask="xxx">      </po-input>
+  
+            @if (this.mudaCampos === 1) {            
+              <po-input name="codFilial"  formControlName="codFilial"  style="width: 50px;" p-label="Filial" p-mask="xx">       </po-input>
+              <po-input name="numRR"      formControlName="numRR" style="width: 120px;" p-label="Reparo" p-mask=">>>>>>9.9"></po-input>
+            }
+            @else {
+              <po-input name="itCodigo" formControlName="itCodigo"  style="width: 200px;" p-label="Item" p-mask="XX.XXX.XXXXX-XX">       </po-input>
+            }
+  
+            <po-button p-tooltip="Efetuar Busca de Prioridade" name='btBusca' [p-disabled]="lBotao" style="margin-right: 50px" p-icon="po-icon po-icon-search" p-kind="primary"  p-label="Buscar" (p-click)="ChamaObterBRR()"></po-button>
+          </div>
+        </form>
+        -->
+    </div>
+    <div class="campofiltrosc">
+            <po-button p-tooltip="Lista Itens x Localização"        p-icon="po-icon po-icon-news"       p-label="ESAA002"        (p-click)="AbrirTelaTOTVS('esp/esaa002.w')" p-kind="primary"></po-button>
+            <po-button p-tooltip="Itens Técnicos X Mascaras Kits"   p-icon="po-icon po-icon-pushcart"   p-label="ESAA015"        (p-click)="AbrirTelaTOTVS('esp/esaa015.w')" p-kind="primary"></po-button>
+            <po-button p-tooltip="Itens em Poder do Técnico Filial" p-icon="po-icon po-icon-pushcart"   p-label="ESAA016"        (p-click)="AbrirTelaTOTVS('esp/esaa016.w')" p-kind="primary"></po-button>
+            <po-button p-tooltip="Gerar SaldoTerc Atual"            p-icon="po-icon po-icon-print"      p-label="Gera SaldoTerc" (p-click)="onChamarLogin()"             p-kind="primary"></po-button>
+            <!--<po-button p-tooltip="AutoAtendimento"                  p-icon="po-icon po-icon-handshake"    p-label="AutoAtendimento" (p-click)="AbrirTelaTOTVS('htmla41/')" p-kind="primary"></po-button>
+            <po-button p-tooltip="Monitor Pedido Execução"          p-icon="po-icon po-icon-touch"        p-label="Monitor PedExec" (p-click)="AbrirTelaTOTVS('totvs-fnd-task-scheduler/#/order-monitor')" p-kind="primary"></po-button>
+            tem que instalar os componentes do excel
+            <po-button p-tooltip="Baixar Dados no Excel"            p-icon="bi bi-download"               p-label="Baixar" (p-click)="this.onExportarExcel()" p-kind="primary"> </po-button>
+            -->
+    </div>
+</div>
+  
+<div class="grid">    
+    <po-loading-overlay *ngIf="loadTela===true" [p-text]="labelLoadTela" [p-screen-lock]="true"></po-loading-overlay>
+    <po-table #ttRenovacaoMensal [p-items]="registros" 
+                                  [p-columns]="colunas"
+                                  [p-striped]="true" 
+                                  p-sort="true"
+                                  [p-actions]="opcoesGrid"
+                                  [p-hide-table-search]="false" 
+                                  [p-hide-columns-manager]="true" 
+                                  p-container="true"
+                                  [p-single-select]="false"
+                                  [p-selectable]="true"
+                                  [p-literals]="customLiterals"
+                                  [p-height]="alturaGrid"/>
+    <p style="font-size: 10px" >versão 1.00.000</p>
+</div>
+
+<po-modal #ChamaEntradas p-size="100px" p-title="RENOVAÇÃO MENSAL DA FILIAL.: {{ codFilial }}" >
+  
+    <form [formGroup]="form">
+
+        <po-divider p-label="Dados do Agendamento - ENTRADAS"></po-divider>
+        
+        <po-datepicker class="po-md-4" p-mask="99/99/9999" [(ngModel)]="dataAgendamentoultimo" p-required
+            p-help="Ex.: Data: DD/MM/AAAA" name="DtRenovEntr" p-label="Data Entradas" formControlName="DtRenovEntr">
+        </po-datepicker>
+
+        <po-input [(ngModel)]="horaAgendamentoEntr" p-mask="99:99:99" class="po-lg-6" name="Hora" p-label="Hora " p-required
+            p-help="Ex.: Hora: HH:MM:SS" id="00:00:05" formControlName="HrRenovEntr">
+        </po-input>
+
+        <br><br><br><br><br><br> 
+
+        <po-divider p-label="Dados do Agendamento - SAÍDAS"></po-divider>
+        
+        <po-datepicker class="po-md-4" p-mask="99/99/9999" [(ngModel)]="dataAgendamentoprimeiro" p-required
+            p-help="Ex.: Data: DD/MM/AAAA" name="DtRenovSai" p-label="Data Saídas" formControlName="DtRenovSai">
+        </po-datepicker>
+
+        <po-input [(ngModel)]="horaAgendamentoSai" p-mask="99:99:99" class="po-lg-6" name="Hora" p-label="Hora " p-required
+            p-help="Ex.: Hora: HH:MM:SS" id="00:00:10" formControlName="HrRenovSai">
+        </po-input>
+
+    </form>
+
+    <po-modal-footer [p-disabled-align]="false">
+        <po-button p-label="true" p-label="Cancelar" (p-click)="FecharChamaEntradas()"> </po-button>
+        <po-button p-kind="primary" p-label="Confirmar" (p-click)="ChamaRenovacaoMensal()"> </po-button>
+    </po-modal-footer>
+
+  
+</po-modal>
+<po-modal #loginModal_login 
+         p-title="Efetuar Login" 
+         p-size="sm" 
+         p-click-out="false"
+         [p-hide-close]=true
+         [p-secondary-action]="acaoLogin_cancel" 
+         [p-primary-action]="acaoLogin_login">
+
+  <div class="po-row">
+    <po-combo [ngModel]="codEstabelecimento_login" (ngModelChange)="codEstabelecimento_login = $event" class="po-md-12"
+      [p-options]="listaEstabelecimentos" p-label="Estabelecimento" p-icon="bi bi-pin-map"
+      p-placeholder="Selecione o estabelecimento" p-clean="true">
+      <ng-template p-combo-option-template let-option>
+        <div class="po-row">
+          <po-icon class="po-sm-2 po-md-3 po-lg-1" p-size="sm" p-icon="bi bi-pin-map"></po-icon>
+          <div class="po-sm-10 po-md-9 po-lg-11">
+            <div class="po-font-text-large-bold">{{ option.label }}</div>
+            <div class="po-font-text-smaller">Filial: {{ option.codFilial }}</div>
+          </div>
+        </div>
+      </ng-template>
+    </po-combo>
+  </div>
+  <div class="po-row">
+    <po-input p-icon="bi bi-person-workspace" class="po-md-12" [(ngModel)]="codUsuario_login" p-mask="999999" p-clean
+      p-label="Usuário">
+    </po-input>
+  </div>
+
+  <div class="po-row">
+    <po-password class="po-md-12" [(ngModel)]="senha_login" p-clean p-label="Senha">
+    </po-password>
+  </div>
+</po-modal>
